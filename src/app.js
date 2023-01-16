@@ -3,12 +3,28 @@ const path = require('path');
 const methodOverride = require('method-override');
 const app = express();
 const port = 3010
+const cors = require("cors");
+const corsOptions = {
+    origin: "*"
+  };
+  
+  app.use(cors(corsOptions));
+  let allowCrossDomain = function(req, res, next) {
+      res.header('Access-Control-Allow-Origin', "*");
+      res.header("Access-Control-Allow-Methods", "OPTIONS, POST, GET, PUT, DELETE");
+      res.header('Access-Control-Allow-Headers', "*");
+      res.header("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
+      next();
+    }
+  app.use(allowCrossDomain);
+  
 
 
 //Ejecuto el llamado a mis rutas
 const indexRouter = require('./routes/index');
-const moviesRoutes = require('./routes/moviesRoutes');
-const genresRoutes = require('./routes/genresRoutes');
+const apiActors = require('./routes/api/actorsRouter');
+const apiGenres = require('./routes/api/genresRouter');
+const apiMovies = require('./routes/api/moviesRouter');
 
 //Aquí pueden colocar las rutas de las APIs
 
@@ -26,8 +42,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
 
 app.use('/', indexRouter);
-app.use(moviesRoutes);
-app.use(genresRoutes);
+app.use('/', apiActors )
+app.use('/', apiGenres )
+app.use('/', apiMovies )
 
 
 //Activando el servidor desde express

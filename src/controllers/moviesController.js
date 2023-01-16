@@ -70,11 +70,11 @@ const moviesController = {
         .create(
             {
                 title: req.body.title,
-                rating: req.body.rating,
-                awards: req.body.awards,
+                rating: +req.body.rating,
+                awards: +req.body.awards,
                 release_date: req.body.release_date,
-                length: req.body.length,
-                genre_id: req.body.genre_id
+                length: +req.body.length,
+                genre_id: +req.body.genre_id
             }
         )
         .then(()=> {
